@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 import UserController from './controllers/UserController'
 import TuitController from "./controllers/TuitController";
+import LikeController from "./controllers/LikeController";
 import bodyParser from 'body-parser';
 import type {ErrorRequestHandler} from "express";
 
@@ -14,9 +15,11 @@ app.get('/', (req: any, res: { send: (arg0: string) => any; }) => res.send('Welc
 
 new UserController(app);
 new TuitController(app);
+let likeController = new LikeController()
+likeController.register(app)
 
-//mongoose.connect('mongodb://0.0.0.0:27017/tuiter')
-mongoose.connect('mongodb+srv://admin:'+process.env.MONGO_PW+'@cluster0.bihkn.mongodb.net/tuiter?retryWrites=true&w=majority')
+mongoose.connect('mongodb://0.0.0.0:27017/tuiter')
+//mongoose.connect('mongodb+srv://admin:' + process.env.MONGO_PW + '@cluster0.bihkn.mongodb.net/tuiter?retryWrites=true&w=majority')
 mongoose.connection.on('connected', () => console.log("connected"))
 
 app.listen(process.env.PORT || 4000, () => {
