@@ -1,5 +1,3 @@
-import AccountType from "./AccountType";
-import MaritalStatus from "./MaritalStatus";
 import User from "./User";
 import Tuit from "./Tuit";
 
