@@ -9,7 +9,7 @@ export default class LikeController implements LikeControllerI {
         this.likeDao = new LikeDao()
     }
 
-    register(app: Express) {
+    listen(app: Express) {
         app.post('/users/:uid/likes/:tid', this.createLike)
         app.delete('/users/:uid/likes/:tid', this.deleteLike)
         app.get("/users/:uid/likes", this.findLikedTuitsByUser)
@@ -20,7 +20,7 @@ export default class LikeController implements LikeControllerI {
         let uid = req.params['uid']
         let tid = req.params['tid']
         this.likeDao.createLike(uid, tid)
-            .then(json => res.json(json))
+            .then(like => res.json(like))
             .catch(err => res.status(422).json(err))
     }
 
@@ -28,7 +28,7 @@ export default class LikeController implements LikeControllerI {
         let uid = req.params['uid']
         let tid = req.params['tid']
         this.likeDao.deleteLike(uid, tid)
-            .then(json => res.json(json))
+            .then(result => res.json(result))
             .catch(err => res.status(422).json(err))
     }
 

@@ -1,7 +1,4 @@
 import Like from "../models/Like";
-import User from "../models/User"
-import {Query} from "mongoose";
-import Tuit from "../models/Tuit";
 
 /**
  * Interface for class Like that represents a Like

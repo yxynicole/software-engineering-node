@@ -4,11 +4,10 @@ import UserController from './controllers/UserController'
 import TuitController from "./controllers/TuitController";
 import LikeController from "./controllers/LikeController";
 import bodyParser from 'body-parser';
-import type {ErrorRequestHandler} from "express";
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(bodyParser.json()); // every incoming request must be processed by this middleware: bodyParser.json(), changing body Json_string into object
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/', (req: any, res: { send: (arg0: string) => any; }) => res.send('Welcome!'))
@@ -16,7 +15,7 @@ app.get('/', (req: any, res: { send: (arg0: string) => any; }) => res.send('Welc
 new UserController(app);
 new TuitController(app);
 let likeController = new LikeController()
-likeController.register(app)
+likeController.listen(app)
 
 mongoose.connect('mongodb://0.0.0.0:27017/tuiter')
 //mongoose.connect('mongodb+srv://admin:' + process.env.MONGO_PW + '@cluster0.bihkn.mongodb.net/tuiter?retryWrites=true&w=majority')
