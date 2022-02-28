@@ -12,23 +12,22 @@ export default class MessageDao implements MessageDaoI{
         });
     }
 
-    async deleteMessage(uid: string, message: string, receiverId: string): Promise<any> {
+    async deleteMessage(uid: string, mid: string): Promise<any> {
         return MessageModel.deleteOne({
-            from: uid,
-            to: receiverId,
-            message: message,
+            from: new ObjectId(uid),
+            _id: new ObjectId(mid),
         });
     }
 
     async findMessageBySender(senderId: string): Promise<Massage[]> {
         return MessageModel.find({
             from: new ObjectId(senderId),
-        }).populate('message').populate('sentOn')
+        })
     }
 
     async findMessagesByReceiver(receiverId: string): Promise<Massage[]> {
         return MessageModel.find({
-            from: new ObjectId(receiverId),
-        }).populate('message').populate('sentOn')
+            to: new ObjectId(receiverId),
+        })
     }
 }
