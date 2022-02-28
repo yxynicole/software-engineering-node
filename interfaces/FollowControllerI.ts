@@ -8,7 +8,7 @@ import {Request, Response} from "express";
 export default interface FollowControllerI{
     /**
      * Create a following object that represents the following relationship between the follower and the followee
-     * @param req {Request} The request parameter contains the followerId, and its body contains the followeeId
+     * @param req {Request} The request contains the followerId, and its body contains the followeeId
      * @param res {Response} The response contains the newly created following object
      */
     createFollowing(req: Request, res: Response): void;
