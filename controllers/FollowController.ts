@@ -10,23 +10,24 @@ export default class FollowController implements FollowControllerI {
     }
 
     listen(app: Express) {
-        app.post('/users/:uid/followings', this.createFollow);
-        app.delete('/users/:uid/followings/:followingId', this.deleteFollow);
+        app.post('/users/:uid/followings', this.createFollowing);
+        app.delete('/users/:uid/followings', this.deleteFollowing);
         app.get('/users/:uid/followees', this.findFolloweesByUser);
         app.get('/users/:uid/followers', this.findFollowersByUser);
     }
 
-    createFollow = (req: Request, res: Response) => {
+    createFollowing = (req: Request, res: Response) => {
         let followerId = req.params['uid'];
-        let followeeId = req.body.follweeId;
+        let followeeId = req.body.followeeId;
+        console.log("create follow: " , followeeId, req.body);
         this.followDao.createFollow(followerId, followeeId)
             .then(follow => res.json(follow))
             .catch(error => res.status(422).json(error));
     }
 
-    deleteFollow = (req: Request, res: Response) => {
+    deleteFollowing = (req: Request, res: Response) => {
         let followerId = req.params['uid'];
-        let followeeId = req.params['followingId'];
+        let followeeId = req.body.followeeId;
         this.followDao.deleteFollow(followerId, followeeId)
             .then(follow => res.json(follow))
             .catch(error => res.status(422).json(error));
@@ -35,7 +36,7 @@ export default class FollowController implements FollowControllerI {
     findFolloweesByUser = (req: Request, res: Response) => {
         let uid = req.params['uid'];
         this.followDao.findFollowsbyFollower(uid)
-            .then(follows => res.json(follows.map(follow => follow.followee)))
+            .then(follows => {res.json(follows.map(follow => follow.followee))})
             .catch(error => res.status(422).json(error));
     }
 

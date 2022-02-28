@@ -1,3 +1,5 @@
+import FollowController from "./controllers/FollowController";
+
 const express = require('express');
 const mongoose = require('mongoose');
 import UserController from './controllers/UserController'
@@ -14,8 +16,12 @@ app.get('/', (req: any, res: { send: (arg0: string) => any; }) => res.send('Welc
 
 new UserController(app);
 new TuitController(app);
+
 let likeController = new LikeController()
 likeController.listen(app)
+
+let followController = new FollowController()
+followController.listen(app);
 
 mongoose.connect('mongodb://0.0.0.0:27017/tuiter')
 //mongoose.connect('mongodb+srv://admin:' + process.env.MONGO_PW + '@cluster0.bihkn.mongodb.net/tuiter?retryWrites=true&w=majority')
