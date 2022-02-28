@@ -1,12 +1,12 @@
-import FollowController from "./controllers/FollowController";
-
 const express = require('express');
 const mongoose = require('mongoose');
+
+import FollowController from "./controllers/FollowController";
 import UserController from './controllers/UserController'
 import TuitController from "./controllers/TuitController";
 import LikeController from "./controllers/LikeController";
 import BookmarkController from "./controllers/BookmarkController";
-
+import MessageController from "./controllers/MessageController";
 import bodyParser from 'body-parser';
 
 const app = express();
@@ -27,6 +27,9 @@ followController.listen(app);
 
 let bookmarkController = new BookmarkController()
 bookmarkController.listen(app);
+
+let messageController = new MessageController()
+messageController.listen(app);
 
 mongoose.connect('mongodb://0.0.0.0:27017/tuiter')
 //mongoose.connect('mongodb+srv://admin:' + process.env.MONGO_PW + '@cluster0.bihkn.mongodb.net/tuiter?retryWrites=true&w=majority')

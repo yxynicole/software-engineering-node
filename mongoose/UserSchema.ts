@@ -19,5 +19,4 @@ const UserSchema = new mongoose.Schema<User>({
         longitude: {type: Number, default: 0.0},
     }
     }, {collection:'users'});
-//告诉mongoose.Schema, 要把 user collection 里 的 document 转换成 application里的Oobject的话，要 follow 这些 definition： def1.
 export default UserSchema;
