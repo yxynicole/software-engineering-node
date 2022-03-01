@@ -11,6 +11,10 @@ export default class UserController implements UserControllerI {
     app: Express;
     userDao: UserDao;
 
+    /**
+     * Create a userController listening on the app
+     * @param {Express} app Express server application.
+     */
     constructor(app: Express) {
         this.app = app;
         this.userDao = new UserDao();

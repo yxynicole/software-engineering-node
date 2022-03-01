@@ -17,6 +17,10 @@ export default class LikeController implements LikeControllerI {
         this.likeDao = new LikeDao()
     }
 
+    /**
+     * LikeController listens on the app
+     * @param {Express} app Express server application.
+     */
     listen(app: Express) {
         app.post('/users/:uid/likes/:tid', this.createLike)
         app.delete('/users/:uid/likes/:tid', this.deleteLike)

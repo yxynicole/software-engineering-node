@@ -17,6 +17,10 @@ export default class FollowController implements FollowControllerI {
         this.followDao = new FollowDao();
     }
 
+    /**
+     * followerController listens on the app
+     * @param {Express} app Express server application.
+     */
     listen(app: Express) {
         app.post('/users/:uid/followings', this.createFollowing);
         app.delete('/users/:uid/followings', this.deleteFollowing);
