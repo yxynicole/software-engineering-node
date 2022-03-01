@@ -9,6 +9,7 @@ import BookmarkController from "./controllers/BookmarkController";
 import MessageController from "./controllers/MessageController";
 import bodyParser from 'body-parser';
 
+
 const app = express();
 
 app.use(bodyParser.json()); // every incoming request must be processed by this middleware: bodyParser.json(), changing body Json_string into object

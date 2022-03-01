@@ -11,6 +11,10 @@ export default class TuitController implements TuitControllerI {
     app: Express;
     tuitDao: TuitDao;
 
+    /**
+     * Create a TuitController listening on the app
+     * @param {Express} app Express server application
+     */
     constructor(app: Express) {
         this.app = app;
         this.tuitDao = new TuitDao();

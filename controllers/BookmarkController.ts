@@ -17,6 +17,10 @@ export default  class BookmarkController implements  bookmarkControllerI{
         this.bookmarkDao = new BookmarkDao()
     }
 
+    /**
+     * BookmarkController listens on the app
+     * @param {Express} app Express server application.
+     */
     listen(app: Express){
         app.post('/users/:uid/bookmarks/:tid', this.createBookmark)
         app.delete('/users/:uid/bookmarks/:tid', this.deleteBookmark)

@@ -17,6 +17,10 @@ export default class MessageController implements MessageControllerI {
         this.messageDao = new MessageDao()
     }
 
+    /**
+     * MessageController listens on the app
+     * @param {Express} app Express server application.
+     */
     listen(app: Express) {
         app.post('/users/:uid/messages', this.createMessage)
         app.delete('/users/:uid/messages/:mid', this.deleteMessage)
