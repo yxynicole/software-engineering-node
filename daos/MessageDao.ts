@@ -3,6 +3,9 @@ import Massage from "../models/Message";
 import MessageModel from "../mongoose/MessageModel";
 import {ObjectId} from "mongodb";
 
+/**
+ *  Implementation of MessageDaoI to create, delete, and read data in the message collection in the database
+ */
 export default class MessageDao implements MessageDaoI{
     async createMessage(uid: string, message: string, receiverId: string): Promise<Massage> {
         return MessageModel.create({

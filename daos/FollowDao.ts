@@ -3,6 +3,9 @@ import Follow from "../models/Follow";
 import FollowModel from "../mongoose/FollowModel";
 import {ObjectId} from "mongodb";
 
+/**
+ *  Implementation of FollowDaoI to create, delete, and read data in the follow collection in the database
+ */
 export default class FollowDao implements FollowDaoI{
     async createFollow(followerId: string, followeeId: string): Promise<Follow> {
         return FollowModel.create({

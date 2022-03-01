@@ -1,3 +1,7 @@
+/**
+ * Enum for AccountType value.
+ * @enum {string}
+ */
 enum AccountType {
     Personal = 'PERSONAL',
     Academic = 'ACADEMIC',

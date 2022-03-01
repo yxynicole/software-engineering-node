@@ -1,10 +1,16 @@
 import {Request, Response, Express} from "express";
 import UserDao from "../daos/UserDao";
 import UserControllerI from "../interfaces/UserControllerI";
-
+/**
+ * Class representing a UserController with UserDao
+ *
+ * @class
+ * @implements{UserControllerI}
+ */
 export default class UserController implements UserControllerI {
     app: Express;
     userDao: UserDao;
+
     constructor(app: Express) {
         this.app = app;
         this.userDao = new UserDao();

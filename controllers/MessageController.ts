@@ -1,10 +1,18 @@
 import {Request, Response, Express} from "express";
 import MessageControllerI from "../interfaces/MessageControllerI";
 import MessageDao from "../daos/MessageDao";
-
+/**
+ * Class representing a MessageController with MessageDao
+ *
+ * @class
+ * @implements{MessageControllerI}
+ */
 export default class MessageController implements MessageControllerI {
     messageDao: MessageDao
 
+    /**
+     * Create a MessageDao object.
+     */
     constructor() {
         this.messageDao = new MessageDao()
     }

@@ -3,6 +3,9 @@ import BookmarkModel from "../mongoose/BookmarkModel";
 import Bookmark from "../models/Bookmark";
 import {ObjectId} from "mongodb";
 
+/**
+ *  Implementation of BookmarkDaoI to create, delete, and read data in the bookmark collection in the database
+ */
 export default class BookmarkDao implements BookmarkDaoI{
     async createBookmark(uid: string, tid: string): Promise<Bookmark> {
         return BookmarkModel.create({
