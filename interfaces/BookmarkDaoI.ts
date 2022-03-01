@@ -1,6 +1,6 @@
 import Bookmark from "../models/Bookmark";
 /**
- * Interface for class Bookmark that represents a Bookmark
+ * BookmarkDaoI Interface
  *
  * @interface
  */

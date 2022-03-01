@@ -1,7 +1,6 @@
 import Follow from "../models/Follow";
-
 /**
- *  Interface for class Following that represents a follow relation
+ * FollowDaoI Interface
  *
  * @interface
  */

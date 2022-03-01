@@ -1,6 +1,6 @@
 import Like from "../models/Like";
 /**
- * Interface for class Like that represents a Like
+ * LikeDaoI Interface
  *
  * @interface
  */
