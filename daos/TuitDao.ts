@@ -2,6 +2,7 @@ import Tuit from "../models/Tuit";
 import TuitModel from "../mongoose/TuitModel";
 import TuitDaoI from "../interfaces/TuitDaoI"
 import {Query} from "mongoose";
+import {ObjectId} from "mongodb";
 
 /**
  * Implementation of TuitDaoI to read, create, update, and delete data in the tuit collection in the database
@@ -12,7 +13,9 @@ export default class TuitDao implements  TuitDaoI{
     }
 
     async findTuitsByUser(uid: string): Promise<Query<any, any, {}, any>>{
-        return TuitModel.findById(uid);
+        return TuitModel.find({
+            postedBy: new ObjectId(uid),
+        }).populate('postedBy')
     }
 
     async findTuitById(tid: string): Promise<Query<any, any, {}, any>>{
