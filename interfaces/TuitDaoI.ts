@@ -1,6 +1,10 @@
 import Tuit from "../models/Tuit";
 import {Query} from "mongoose";
-
+/**
+ * TuitDaoI Interface
+ *
+ * @interface
+ */
 export default interface TuitDaoI {
     findAllTuits(): Promise<Tuit[]>;
 

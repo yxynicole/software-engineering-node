@@ -1,5 +1,4 @@
 import {Request, Response} from "express";
-
 /**
  * tuitController interface
  *
