@@ -32,8 +32,8 @@ bookmarkController.listen(app);
 let messageController = new MessageController()
 messageController.listen(app);
 
-mongoose.connect('mongodb://0.0.0.0:27017/tuiter')
-//mongoose.connect('mongodb+srv://admin:' + process.env.MONGO_PW + '@cluster0.bihkn.mongodb.net/tuiter?retryWrites=true&w=majority')
+// mongoose.connect('mongodb://0.0.0.0:27017/tuiter')
+mongoose.connect('mongodb+srv://admin:' + process.env.MONGO_PW + '@cluster0.bihkn.mongodb.net/tuiter?retryWrites=true&w=majority')
 mongoose.connection.on('connected', () => console.log("connected"))
 
 app.listen(process.env.PORT || 4000, () => {
