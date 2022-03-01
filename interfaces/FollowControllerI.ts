@@ -1,36 +1,36 @@
 import {Request, Response} from "express";
 
 /**
- * Interface for class Following that represents a follow relation
+ * followController Interface
  *
  * @interface
  */
 export default interface FollowControllerI{
     /**
-     * Create a following object that represents the following relationship between the follower and the followee
-     * @param req {Request} The request contains the followerId, and its body contains the followeeId
-     * @param res {Response} The response contains the newly created following object
+     * Create a following object
+     * @param req {Request}
+     * @param res {Response}
      */
     createFollowing(req: Request, res: Response): void;
 
     /**
-     * Delete a following object that represents the following relationship between the follower and the followee
-     * @param req {Request} The request parameter contains the followerId, and its body contains the followeeId
-     * @param res {Response} The response contains either deletion count or failure code
+     * Delete a following object
+     * @param req {Request}
+     * @param res {Response}
      */
     deleteFollowing(req: Request, res: Response): void;
 
     /**
-     * Retrieve all followees who are following by the follower(user)
-     * @param req {Request} The request parameter contains the followerId(uid).
-     * @param res {Response} The response contains an array of followee objects.
+     * Retrieve all followees by user id
+     * @param req {Request}
+     * @param res {Response}
      */
     findFolloweesByUser(req: Request, res: Response): void;
 
     /**
-     *Retrieve all followers who are following the followee(user)
-     * @param req {Request} The request parameter contains the followeeId(uid).
-     * @param res {Response} The response contains an array of follower objects.
+     *Retrieve all followers by user id
+     * @param req {Request}
+     * @param res {Response}
      */
     findFollowersByUser(req: Request, res: Response): void;
 }

@@ -1,7 +1,7 @@
 import mongoose, {Schema} from "mongoose";
 import Follow from "../models/Follow";
 /**
- * @typedef follow Represents a follow relation between two users
+ * @typedef follow Represents a following relation between two users: the follower follows the followee.
  * @property {User} follower follower is the one who follows
  * @property {User} followee followee is the one who is followed
  */

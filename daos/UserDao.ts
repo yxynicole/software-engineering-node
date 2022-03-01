@@ -2,6 +2,9 @@ import User from "../models/User";
 import UserModel from "../mongoose/UserModel";
 import UserDaoI from "../interfaces/UserDaoI";
 
+/**
+ * Implementation of UserDaoI to create, delete, update, and read data in the user collection in the database
+ */
 export default class UserDao implements UserDaoI {
     async findAllUsers(): Promise<User[]> {
         return UserModel.find();

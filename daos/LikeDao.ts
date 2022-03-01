@@ -4,7 +4,7 @@ import LikeModel from "../mongoose/LikeModel";
 import {ObjectId} from "mongodb"
 
 /**
- *  Implementation of LikeDaoI
+ *  Implementation of LikeDaoI to create, delete, and read data in the like collection in the database
  *
  */
 export default class LikeDao implements LikeDaoI {

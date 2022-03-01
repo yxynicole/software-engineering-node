@@ -1,10 +1,18 @@
 import {Request, Response, Express} from "express";
 import LikeControllerI from "../interfaces/LikeControllerI";
 import LikeDao from "../daos/LikeDao";
-
+/**
+ * Class representing a LikeController with LikeDao
+ *
+ * @class
+ * @implements{LikeControllerI}
+ */
 export default class LikeController implements LikeControllerI {
     likeDao: LikeDao
 
+    /**
+     * Create a LikeDao object.
+     */
     constructor() {
         this.likeDao = new LikeDao()
     }

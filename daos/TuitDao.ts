@@ -3,6 +3,9 @@ import TuitModel from "../mongoose/TuitModel";
 import TuitDaoI from "../interfaces/TuitDaoI"
 import {Query} from "mongoose";
 
+/**
+ * Implementation of TuitDaoI to read, create, update, and delete data in the tuit collection in the database
+ */
 export default class TuitDao implements  TuitDaoI{
     async findAllTuits(): Promise<Tuit[]>{
         return TuitModel.find();
