@@ -8,13 +8,13 @@ import LikeController from "./controllers/LikeController";
 import BookmarkController from "./controllers/BookmarkController";
 import MessageController from "./controllers/MessageController";
 import bodyParser from 'body-parser';
-
+let cors = require('cors')
 
 const app = express();
 
 app.use(bodyParser.json()); // every incoming request must be processed by this middleware: bodyParser.json(), changing body Json_string into object
 app.use(bodyParser.urlencoded({extended: true}));
-
+app.use(cors())
 app.get('/', (req: any, res: { send: (arg0: string) => any; }) => res.send('Welcome!'))
 
 new UserController(app);
