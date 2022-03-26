@@ -1,36 +1,27 @@
 import LikeDaoI from "../interfaces/LikeDaoI";
-import Like from "../models/Like";
-import LikeModel from "../mongoose/LikeModel";
-import {ObjectId} from "mongodb"
-
-/**
- *  Implementation of LikeDaoI to create, delete, and read data in the like collection in the database
- *
- */
+import LikeModel from "../mongoose/likes/LikeModel";
+import Like from "../models/likes/Like";
 export default class LikeDao implements LikeDaoI {
-    async createLike(uid: string, tid: string): Promise<Like> {
-        return LikeModel.create({
-            tuit: tid,
-            likedBy: uid,
-        })
+    private static likeDao: LikeDao | null = null;
+    public static getInstance = (): LikeDao => {
+        if(LikeDao.likeDao === null) {
+            LikeDao.likeDao = new LikeDao();
+        }
+        return LikeDao.likeDao;
     }
-
-    async deleteLike(uid: string, tid: string): Promise<any> {
-        return LikeModel.deleteOne({
-            tuit: tid,
-            likedBy: uid,
-        })
-    }
-
-    async findLikesByTuit(tid: string): Promise<Like[]> {
-        return LikeModel.find({
-            tuit: new ObjectId(tid)
-        }).populate('likedBy').populate('tuit')
-    }
-
-    async findLikesByUser(uid: string): Promise<Like[]> {
-        return LikeModel.find({
-            likedBy: new ObjectId(uid),
-        }).populate('likedBy').populate('tuit')
-    }
+    private constructor() {}
+    findAllUsersThatLikedTuit = async (tid: string): Promise<Like[]> =>
+        LikeModel
+            .find({tuit: tid})
+            .populate("likedBy")
+            .exec();
+    findAllTuitsLikedByUser = async (uid: string): Promise<Like[]> =>
+        LikeModel
+            .find({likedBy: uid})
+            .populate("tuit")
+            .exec();
+    userLikesTuit = async (uid: string, tid: string): Promise<any> =>
+        LikeModel.create({tuit: tid, likedBy: uid});
+    userUnlikesTuit = async (uid: string, tid: string): Promise<any> =>
+        LikeModel.deleteOne({tuit: tid, likedBy: uid});
 }

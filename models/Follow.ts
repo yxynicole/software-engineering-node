@@ -1,4 +1,4 @@
-import User from "./User";
+import User from "./users/User";
 
 /**
  * @class follow represents a follow relation between two users

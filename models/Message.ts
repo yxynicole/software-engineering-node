@@ -1,4 +1,4 @@
-import User from "./User";
+import User from "./users/User";
 /**
  * Message representing a message
  * @property {User} from message sender
