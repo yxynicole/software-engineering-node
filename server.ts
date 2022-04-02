@@ -6,7 +6,7 @@
  *     <li>tuits</li>
  *     <li>likes</li>
  * </ul>
- * 
+ *
  * Connects to a remote MongoDB instance hosted on the Atlas cloud database
  * service
  */
@@ -16,6 +16,7 @@ import TuitController from "./controllers/TuitController";
 import LikeController from "./controllers/LikeController";
 import AuthenticationController from "./controllers/auth-controller"
 import mongoose from "mongoose";
+
 var cors = require('cors')
 const session = require("express-session");
 
@@ -23,21 +24,21 @@ mongoose.connect('mongodb+srv://admin:' + process.env.MONGO_PW + '@cluster0.bihk
 
 const app = express();
 let sess = {
-    secret:process.env.SECRET,
-    cookie:{
+    secret: process.env.SECRET,
+    cookie: {
         secure: false
     },
-    resave:true,
-    saveUninitialized:true,
+    resave: true,
+    saveUninitialized: true,
 }
-if(process.env.ENV === 'PRODUCTION'){
+if (process.env.ENV === 'PRODUCTION') {
     app.set('trust proxy', 1)
     sess.cookie.secure = true
 }
 
 app.use(express.json());
 app.use(cors({
-    origin: process.env.ENABLE_CORS,
+    origin: !(!process.env.ENABLE_CORS),
     credentials: true
 }));
 app.use(session(sess))

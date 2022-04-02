@@ -8,21 +8,25 @@ const AuthenticationController = (app: Express) =>{
     const userDao : UserDao = UserDao.getInstance();
 
     const signup = async(req: Request, res: Response) =>{
-        const newUser = req.body;
-        const password = newUser.password;
-        const hash = await bcrypt.hash(password, saltRounds);
-        newUser.password = hash;
+        try {
+            const newUser = req.body;
+            const password = newUser.password;
+            const hash = await bcrypt.hash(password, saltRounds);
+            newUser.password = hash;
 
-        const existingUser = await userDao.findUserByUsername(req.body.username);
-        if(existingUser){
-            res.sendStatus(403);
-            return;
-        }else{
-            const insertedUser = await userDao.createUser(newUser);
-            insertedUser.password = '';
-            // @ts-ignore
-            req.session['profile'] = insertedUser;
-            res.json(insertedUser);
+            const existingUser = await userDao.findUserByUsername(req.body.username);
+            if (existingUser) {
+                res.sendStatus(403);
+                return;
+            } else {
+                const insertedUser = await userDao.createUser(newUser);
+                insertedUser.password = '';
+                // @ts-ignore
+                req.session['profile'] = insertedUser;
+                res.json(insertedUser);
+            }
+        } catch (err) {
+            res.status(500).json(err)
         }
     }
 
@@ -44,15 +48,12 @@ const AuthenticationController = (app: Express) =>{
     }
 
     const login = async (req: Request, res: Response) => {
-
-        console.log("==> login")
-        console.log("==> req.session")
-        console.log(req.session)
+        console.log("==> req.session", req.session)
 
         const user = req.body;
         const username = user.username;
         const password = user.password;
-        console.log(password)
+
         const existingUser = await userDao
             .findUserByUsername(username);
         const match = await bcrypt.compare(password, existingUser.password);
