@@ -24,4 +24,7 @@ export default class LikeDao implements LikeDaoI {
         LikeModel.create({tuit: tid, likedBy: uid});
     userUnlikesTuit = async (uid: string, tid: string): Promise<any> =>
         LikeModel.deleteOne({tuit: tid, likedBy: uid});
+
+    userToggleLike = async  (uid: string, tid: string): Promise<any> =>
+        LikeModel.find({tuit: tid, likedBy: uid}).then(r => !(!r))
 }

@@ -5,6 +5,7 @@ import TuitDao from "../daos/TuitDao";
 import Tuit from "../models/tuits/Tuit";
 import {Express, Request, Response} from "express";
 import TuitControllerI from "../interfaces/TuitControllerI";
+import LikeDao from "../daos/LikeDao";
 
 /**
  * @class TuitController Implements RESTful Web service API for tuits resource.
@@ -25,7 +26,7 @@ import TuitControllerI from "../interfaces/TuitControllerI";
 export default class TuitController implements TuitControllerI {
     private static tuitDao: TuitDao = TuitDao.getInstance();
     private static tuitController: TuitController | null = null;
-
+    private static likeDao: LikeDao = LikeDao.getInstance()
     /**
      * Creates singleton controller instance
      * @param {Express} app Express instance to declare the RESTful Web service
@@ -72,7 +73,6 @@ export default class TuitController implements TuitControllerI {
 
         return TuitController.tuitDao.findAllTuitsByUser(userId)
             .then((tuits: Tuit[]) => {
-                console.log(tuits)
                 return res.json(tuits)
             })
             .catch(err => res.status(422).json(err));
