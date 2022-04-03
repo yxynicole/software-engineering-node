@@ -52,11 +52,8 @@ const AuthenticationController = (app: Express) =>{
         const username = user.username;
         const password = user.password;
 
-        const existingUser = await userDao
-            .findUserByUsername(username);
-        const match = await bcrypt.compare(password, existingUser.password);
-
-        if (match) {
+        const existingUser = await userDao.findUserByUsername(username);
+        if (existingUser && await bcrypt.compare(password, existingUser.password)) {
             existingUser.password = '*****';
             // @ts-ignore
             req.session['profile'] = existingUser;

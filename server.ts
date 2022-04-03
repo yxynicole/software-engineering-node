@@ -26,12 +26,13 @@ const app = express();
 let sess = {
     secret: process.env.SECRET,
     cookie: {
-        secure: false
+        sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === "production",
     },
     resave: true,
     saveUninitialized: true,
 }
-if (process.env.ENV === 'PRODUCTION') {
+if (process.env.NODE_ENV === 'production') {
     app.set('trust proxy', 1)
     sess.cookie.secure = true
 }
