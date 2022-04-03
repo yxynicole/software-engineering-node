@@ -100,10 +100,11 @@ export default class TuitController implements TuitControllerI {
     createTuitByUser = (req: Request, res: Response) => {
         // @ts-ignore
         let userId = req.params.uid === "me" && req.session['profile'] ? req.session['profile']._id : req.params.uid
-        if (userId === "me") {
-            res.sendStatus(503);
+        if (userId === "me" || userId === "undefined" || userId === undefined) {
+            res.status(403).send('not logged in')
             return;
         }
+
         TuitController.tuitDao.createTuitByUser(userId, req.body)
             .then((tuit: Tuit) => res.json(tuit))
             .catch(err => res.status(422).json(err));

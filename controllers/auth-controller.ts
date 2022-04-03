@@ -48,8 +48,6 @@ const AuthenticationController = (app: Express) =>{
     }
 
     const login = async (req: Request, res: Response) => {
-        console.log("==> req.session", req.session)
-
         const user = req.body;
         const username = user.username;
         const password = user.password;
