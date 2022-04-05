@@ -27,4 +27,9 @@ export default class BookmarkDao implements BookmarkDaoI{
         }).populate('bookmarkedTuit')
     }
 
+    async findBookmarkByTuit(tid: string): Promise<Bookmark[]>{
+        return BookmarkModel.find({
+            bookmarkedTuit: new ObjectId(tid),
+        })
+    }
 }

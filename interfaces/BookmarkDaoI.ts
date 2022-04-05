@@ -26,4 +26,12 @@ export default interface BookmarkDaoI{
      * @returns {Bookmarks[]} Bookmarks array
      */
     findBookmarksByUser(uid: string): Promise<Bookmark[]>;
+
+    /**
+     * Return true if the tuit is bookmarked otherwise return false
+     * @param tid {string}tid Tuiter id
+     * @returns {Bookmarks[]} Bookmarks array
+     */
+    findBookmarkByTuit(tid: string): Promise<Bookmark[]>;
+
 }

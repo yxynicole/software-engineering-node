@@ -1,30 +1,35 @@
 import {Request, Response, Express} from "express";
 import bookmarkControllerI from "../interfaces/BookmarkControllerI";
 import BookmarkDao from "../daos/BookmarkDao";
+import TuitDao from "../daos/TuitDao";
+
 /**
  * Class representing a BookmarkController with BookmarkDao
  *
  * @class
  * @implements{bookmarkControllerI}
  */
-export default  class BookmarkController implements  bookmarkControllerI{
+export default class BookmarkController implements bookmarkControllerI {
     bookmarkDao: BookmarkDao
+    tuitDao: TuitDao
 
     /**
      * Create a BookmarkDao object.
      */
-    constructor (){
+    constructor() {
         this.bookmarkDao = new BookmarkDao()
+        this.tuitDao = TuitDao.getInstance();
     }
 
     /**
      * BookmarkController listens on the app
      * @param {Express} app Express server application.
      */
-    listen(app: Express){
+    listen(app: Express) {
         app.post('/users/:uid/bookmarks/:tid', this.createBookmark)
         app.delete('/users/:uid/bookmarks/:tid', this.deleteBookmark)
         app.get('/users/:uid/bookmarks', this.findBookmarksByUser)
+        app.put('/users/:uid/bookmarks/:tid', this.toggleBookmark)
     }
 
     /**
@@ -64,5 +69,29 @@ export default  class BookmarkController implements  bookmarkControllerI{
         this.bookmarkDao.findBookmarksByUser(uid)
             .then(bookmarks => res.json(bookmarks.map(bookmark => bookmark.bookmarkedTuit)))
             .catch(err => res.status(422).json(err))
+    }
+    toggleBookmark = async (req: Request, res: Response) => {
+        const uid = req.params.uid;
+        const tid = req.params.tid;
+        // @ts-ignore
+        const profile = req.session['profile'];
+        const userId = uid === "me" && profile ? profile._id : uid;
+        try {
+            const bookmarks = await this.bookmarkDao.findBookmarkByTuit(tid);
+            const tuit = await this.tuitDao.findTuitById(tid);
+            // @ts-ignore
+            if (bookmarks.length > 0) {
+                await this.bookmarkDao.deleteBookmark(userId, tid);
+                tuit.stats.bookmarked = false;
+            } else {
+                await this.bookmarkDao.createBookmark(userId, tid);
+                tuit.stats.bookmarked = true;
+            }
+            await this.tuitDao.updateTuitStats(tid, tuit.stats);
+            res.sendStatus(200);
+        } catch
+            (e) {
+            res.sendStatus(500);
+        }
     }
 }

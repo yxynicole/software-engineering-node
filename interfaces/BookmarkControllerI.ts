@@ -26,4 +26,11 @@ export default interface bookmarkControllerI{
      * @param res {Response}
      */
     findBookmarksByUser(req: Request, res: Response): void;
+
+    /**
+     * Toggle a bookmark
+     * @param req {Request}
+     * @param res {Response}
+     */
+    toggleBookmark(req:Request, res:Response):void;
 }
