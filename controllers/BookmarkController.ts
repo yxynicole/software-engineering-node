@@ -65,10 +65,20 @@ export default class BookmarkController implements bookmarkControllerI {
      * @param res {Response} The response contains all bookmarks bookmarked by the user
      */
     findBookmarksByUser = (req: Request, res: Response) => {
-        let uid = req.params['uid']
-        this.bookmarkDao.findBookmarksByUser(uid)
+        const uid = req.params['uid'];
+        // @ts-ignore
+        const profile = req.session['profile'];
+        const userId = uid === "me" && profile ?
+            profile._id : uid;
+        if (!profile || userId !== profile._id) {
+            res.status(403)
+            return
+        }
+        this.bookmarkDao.findBookmarksByUser(userId)
             .then(bookmarks => res.json(bookmarks.map(bookmark => bookmark.bookmarkedTuit)))
-            .catch(err => res.status(422).json(err))
+            .catch(err => {
+                return res.status(422).json(err)
+            })
     }
     toggleBookmark = async (req: Request, res: Response) => {
         const uid = req.params.uid;

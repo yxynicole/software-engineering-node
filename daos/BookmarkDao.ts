@@ -1,5 +1,5 @@
 import BookmarkDaoI from "../interfaces/BookmarkDaoI";
-import BookmarkModel from "../mongoose/BookmarkModel";
+import BookmarkModel from "../mongoose/bookmarks/BookmarkModel";
 import Bookmark from "../models/Bookmark";
 import {ObjectId} from "mongodb";
 

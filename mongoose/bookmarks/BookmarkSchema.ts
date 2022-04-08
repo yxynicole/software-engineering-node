@@ -1,5 +1,5 @@
 import mongoose,{Schema}  from 'mongoose';
-import Bookmark from "../models/Bookmark";
+import Bookmark from "../../models/Bookmark";
 /**
  * @typedef Bookmark An object represents the bookmarking relation between the tuit and the user: the tuit has been bookmarked by the user.
  * @property {bookmarkedTuit} Tuit Bookmarked tuit
