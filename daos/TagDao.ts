@@ -1,6 +1,6 @@
 import TagDaoI from "../interfaces/TagDaoI";
 import Tag from "../models/Tag";
-import TagModel from "../mongoose/tags/tagModel";
+import TagModel from "../mongoose/tags/TagModel";
 /**
  * @file Implements DAO managing data storage of tags. Uses mongoose TagModel to integrate with MongoDB
  */

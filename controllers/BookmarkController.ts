@@ -38,7 +38,6 @@ export default class BookmarkController implements bookmarkControllerI {
      * @param res {Response} The response contains the newly created bookmark object
      */
     createBookmark = (req: Request, res: Response) => {
-        console.log(req.params)
         let uid = req.params['uid']
         let tid = req.params['tid']
         this.bookmarkDao.createBookmark(uid, tid)

@@ -17,6 +17,7 @@ import LikeController from "./controllers/LikeController";
 import AuthenticationController from "./controllers/auth-controller";
 import BookmarkController from "./controllers/BookmarkController";
 import TagController from "./controllers/TagController";
+import TagAssociationController from "./controllers/TagAssociationController";
 import mongoose from "mongoose";
 
 var cors = require('cors')
@@ -60,6 +61,8 @@ const authController = AuthenticationController(app);
 const bookmarkController = new BookmarkController();
 bookmarkController.listen(app);
 const tagController = TagController.getInstance(app);
+const tagAssociationController = new TagAssociationController();
+tagAssociationController.listen(app);
 /**
  * Start a server listening at port 4000 locally
  * but use environment variable PORT on Heroku if available.
