@@ -3,7 +3,7 @@ import Tuit from "../models/tuits/Tuit";
 /**
  * @file Declares API for Tuits related data access object methods
  */
-export default interface TuitDaoI {
+export default interface  TuitDaoI {
     findAllTuits (): Promise<Tuit[]>;
     findAllTuitsByUser (uid: string): Promise<Tuit[]>;
     findTuitById (tid: string): Promise<Tuit>;
