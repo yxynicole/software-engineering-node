@@ -2,6 +2,7 @@ import {Request, Response, Express} from "express";
 import bookmarkControllerI from "../interfaces/BookmarkControllerI";
 import BookmarkDao from "../daos/BookmarkDao";
 import TuitDao from "../daos/TuitDao";
+import TagAssociationDao from "../daos/TagAssociationDao";
 
 /**
  * Class representing a BookmarkController with BookmarkDao
@@ -11,6 +12,7 @@ import TuitDao from "../daos/TuitDao";
  */
 export default class BookmarkController implements bookmarkControllerI {
     bookmarkDao: BookmarkDao
+    tagAssociationDao: TagAssociationDao
     tuitDao: TuitDao
 
     /**
@@ -19,6 +21,7 @@ export default class BookmarkController implements bookmarkControllerI {
     constructor() {
         this.bookmarkDao = new BookmarkDao()
         this.tuitDao = TuitDao.getInstance();
+        this.tagAssociationDao = new TagAssociationDao()
     }
 
     /**
@@ -26,10 +29,10 @@ export default class BookmarkController implements bookmarkControllerI {
      * @param {Express} app Express server application.
      */
     listen(app: Express) {
-        app.post('/users/:uid/bookmarks/:tid', this.createBookmark)
-        app.delete('/users/:uid/bookmarks/:tid', this.deleteBookmark)
-        app.get('/users/:uid/bookmarks', this.findBookmarksByUser)
-        app.put('/users/:uid/bookmarks/:tid', this.toggleBookmark)
+        // app.post('/api/users/:uid/bookmarks/:tid', this.createBookmark)
+        // app.delete('/api/users/:uid/bookmarks/:tid', this.deleteBookmark)
+        app.get('/api/users/:uid/bookmarks', this.findBookmarksByUser)
+        app.put('/api/users/:uid/bookmarks/:tid', this.toggleBookmark)
     }
 
     /**
@@ -74,7 +77,9 @@ export default class BookmarkController implements bookmarkControllerI {
             return
         }
         this.bookmarkDao.findBookmarksByUser(userId)
-            .then(bookmarks => res.json(bookmarks.map(bookmark => bookmark.bookmarkedTuit)))
+            .then(bookmarks => {
+                res.json(bookmarks.map(bookmark => bookmark.bookmarkedTuit))
+            })
             .catch(err => {
                 return res.status(422).json(err)
             })
@@ -86,10 +91,10 @@ export default class BookmarkController implements bookmarkControllerI {
         const profile = req.session['profile'];
         const userId = uid === "me" && profile ? profile._id : uid;
         try {
-            const bookmarks = await this.bookmarkDao.findBookmarkByTuit(tid);
+            const bookmark = await this.bookmarkDao.findBookmarkByTuit(userId, tid);
             const tuit = await this.tuitDao.findTuitById(tid);
             // @ts-ignore
-            if (bookmarks.length > 0) {
+            if (bookmark) {
                 await this.bookmarkDao.deleteBookmark(userId, tid);
                 tuit.stats.bookmarked = false;
             } else {
@@ -98,9 +103,8 @@ export default class BookmarkController implements bookmarkControllerI {
             }
             await this.tuitDao.updateTuitStats(tid, tuit.stats);
             res.sendStatus(200);
-        } catch
-            (e) {
-            res.sendStatus(500);
+        } catch (e) {
+            res.status(500).json(e);
         }
     }
 }

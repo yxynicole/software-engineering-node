@@ -1,9 +1,9 @@
-import{Request, Response} from "express";
+import {Request, Response} from "express";
 
 /**
  * TagController Interface
  */
-export default interface TagControllerI{
+export default interface TagControllerI {
     /**
      * Create a tag
      * @param req {Request}
@@ -18,12 +18,5 @@ export default interface TagControllerI{
      */
     deleteTag(req: Request, res: Response): void;
 
-    /**
-     * Retrieve all tags by an user
-     * @param req {Request}
-     * @param res {Response}
-     */
-    findTagsByUser(req: Request, res: Response): void;
 
-    findAllTags(req: Request, res: Response): void;
 }

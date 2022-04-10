@@ -2,19 +2,25 @@ import TagAssociation from "../models/TagAssociation";
 import TagAssociationDaoI from "../interfaces/TagAssociationDaoI";
 import TagAssociationModel from "../mongoose/tags/TagAssociationModel";
 import {ObjectId} from "mongodb";
+import Tag from "../models/Tag";
+import TagModel from "../mongoose/tags/TagModel";
+import Bookmark from "../models/Bookmark";
+import BookmarkModel from "../mongoose/bookmarks/BookmarkModel";
 
-export default class TagAssociationDao implements TagAssociationDaoI{
-    async createTagAssociation(tagId: string, bookmarkId: string): Promise<TagAssociation> {
-        return TagAssociationModel.create({
-            tag: tagId,
-            bookmark: bookmarkId,
-        })
+export default class TagAssociationDao implements TagAssociationDaoI {
+    async createTagAssociation(uid: string, tag_id: string, bid: string): Promise<any> {
+        const payload = {
+            taggedBy: uid,
+            tag: tag_id,
+            bookmark: bid,
+        }
+        return TagAssociationModel.findOneAndUpdate(payload, payload, {upsert: true, new: true})
     }
 
-    async deleteTagAssociation(tagId: string, bookmarkId: string): Promise<any> {
-        return TagAssociationModel.deleteOne({
-            tag: tagId,
-            bookmark: bookmarkId,
+    async deleteTagAssociation(tag_id: string, bid: string): Promise<any> {
+        return TagAssociationModel.deleteMany({
+            tag: tag_id,
+            bookmark: bid,
         })
     }
 
@@ -28,5 +34,15 @@ export default class TagAssociationDao implements TagAssociationDaoI{
                 }
             }
         ).exec()
+    }
+
+    async findTagAssociationByUser(uid: string): Promise<TagAssociation[]> {
+        return TagAssociationModel.find({taggedBy: uid})
+            .populate("tag")
+            .exec();
+    }
+
+    async findAllTagsByBookmark(bid: string): Promise<TagAssociation[]> {
+        return TagAssociationModel.find({bookmark: bid}).populate('tag').exec();
     }
 }

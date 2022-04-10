@@ -3,5 +3,5 @@ import FollowSchema from "./FollowSchema";
 /**
  * mongoose FollowModel based on FollowSchema
  */
-const FollowModel = mongoose.model('followModel', FollowSchema);
+const FollowModel = mongoose.model('FollowModel', FollowSchema);
 export default FollowModel;

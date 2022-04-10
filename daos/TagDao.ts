@@ -1,13 +1,14 @@
 import TagDaoI from "../interfaces/TagDaoI";
 import Tag from "../models/Tag";
 import TagModel from "../mongoose/tags/TagModel";
+
 /**
  * @file Implements DAO managing data storage of tags. Uses mongoose TagModel to integrate with MongoDB
  */
-export default class TagDao implements TagDaoI{
+export default class TagDao implements TagDaoI {
     private static tagDao: TagDao | null = null;
-    public static getInstance = (): TagDao =>{
-        if(TagDao.tagDao === null){
+    public static getInstance = (): TagDao => {
+        if (TagDao.tagDao === null) {
             TagDao.tagDao = new TagDao();
         }
         return TagDao.tagDao;
@@ -16,18 +17,12 @@ export default class TagDao implements TagDaoI{
     private constructor() {
     }
 
-    createTagByUser = async (uid: string, tag: Tag): Promise<Tag> =>
-        TagModel.create({...tag, postedBy: uid});
+    createTag = async (tagName: string): Promise<Tag | null> =>
+        TagModel.findOneAndUpdate({tagName: tagName}, {tagName: tagName}, {upsert: true, new: true});
 
-    deleteTag = async (tagId: string ): Promise<any> =>
-        TagModel.deleteOne({_id: tagId});
+    deleteTag = async (tagName: string): Promise<any> =>
+        TagModel.deleteOne({tagName: tagName});
 
-    findAllTags = async (): Promise<Tag[]> =>
-        TagModel.find()
-            .exec();
-
-
-    findAllTagsByUser = async (uid: string): Promise<Tag[]> =>
-        TagModel.find({postedBy: uid})
-            .exec();
+    getTag = async (tagName: string): Promise<Tag | null> =>
+        TagModel.findOne({tagName: tagName});
 }

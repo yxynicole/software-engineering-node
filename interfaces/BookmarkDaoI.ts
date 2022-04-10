@@ -1,4 +1,5 @@
 import Bookmark from "../models/Bookmark";
+import TagAssociation from "../models/TagAssociation";
 /**
  * BookmarkDaoI Interface
  *
@@ -29,9 +30,11 @@ export default interface BookmarkDaoI{
 
     /**
      * Return true if the tuit is bookmarked otherwise return false
-     * @param tid {string}tid Tuiter id
-     * @returns {Bookmarks[]} Bookmarks array
+     * @param{string} uid The user id represents the user who liked the tuit
+     * @param{string} tid Tuiter id
+     * @returns {Bookmark} Bookmarks array
      */
-    findBookmarkByTuit(tid: string): Promise<Bookmark[]>;
+    findBookmarkByTuit(uid: string, tid: string): Promise<Bookmark | null>;
 
+    getOrCreateBookmarkByTuit(uid: string, tid: string): Promise<Bookmark>
 }

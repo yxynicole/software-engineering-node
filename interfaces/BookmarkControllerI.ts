@@ -5,7 +5,7 @@ import {Request, Response} from "express";
  *
  * @interface
  */
-export default interface bookmarkControllerI{
+export default interface bookmarkControllerI {
     /**
      * Create a bookmark
      * @param req {Request}
@@ -32,5 +32,6 @@ export default interface bookmarkControllerI{
      * @param req {Request}
      * @param res {Response}
      */
-    toggleBookmark(req:Request, res:Response):void;
+    toggleBookmark(req: Request, res: Response): void;
+
 }

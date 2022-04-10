@@ -10,5 +10,7 @@ export default interface TagAssociationControllerI{
 
     deleteTagAssociation(req: Request, res: Response): void;
 
-    findBookmarksByTag(req: Request, res: Response): void;
+    findTagsByBookmark(req: Request, res: Response): void;
+
+    findTagsByUser(req: Request, res: Response): void;
 }

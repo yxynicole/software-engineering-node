@@ -16,7 +16,6 @@ import TuitController from "./controllers/TuitController";
 import LikeController from "./controllers/LikeController";
 import AuthenticationController from "./controllers/auth-controller";
 import BookmarkController from "./controllers/BookmarkController";
-import TagController from "./controllers/TagController";
 import TagAssociationController from "./controllers/TagAssociationController";
 import mongoose from "mongoose";
 
@@ -60,7 +59,6 @@ const likesController = LikeController.getInstance(app);
 const authController = AuthenticationController(app);
 const bookmarkController = new BookmarkController();
 bookmarkController.listen(app);
-const tagController = TagController.getInstance(app);
 const tagAssociationController = new TagAssociationController();
 tagAssociationController.listen(app);
 /**
