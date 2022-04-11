@@ -6,6 +6,8 @@ import TuitModel from "../mongoose/tuits/TuitModel";
 import Tuit from "../models/tuits/Tuit";
 import TuitDaoI from "../interfaces/TuitDaoI";
 import BookmarkModel from "../mongoose/bookmarks/BookmarkModel";
+import TagAssociation from "../models/TagAssociation";
+import TagAssociationModel from "../mongoose/tags/TagAssociationModel";
 
 /**
  * @class UserDao Implements Data Access Object managing data storage
@@ -43,10 +45,9 @@ export default class TuitDao implements TuitDaoI {
             {_id: uid},
             {$set: tuit});
     deleteTuit = async (tid: string): Promise<any> =>
-        TuitModel.deleteOne({_id: tid}).then( () => {
-            BookmarkModel.deleteMany({bookmarkedTuit: tid})
-                .then(() => console.log("cascading delete", tid))
-        });
+        TuitModel.deleteOne({_id: tid}).then(() =>
+            BookmarkModel.findOneAndDelete({bookmarkedTuit: tid}).then((b) =>
+                b && TagAssociationModel.deleteMany({bookmark: b._id})));
     updateTuitStats = async (tid: string, newStats: any) =>
         TuitModel.updateOne({_id: tid}, {$set: {stats: newStats}})
 }

@@ -39,6 +39,12 @@ export default class TagAssociationDao implements TagAssociationDaoI {
     async findTagAssociationByUser(uid: string): Promise<TagAssociation[]> {
         return TagAssociationModel.find({taggedBy: uid})
             .populate("tag")
+            .populate({
+                path: "bookmark",
+                populate: {
+                    path: "bookmarkedTuit"
+                }
+            })
             .exec();
     }
 

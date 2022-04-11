@@ -42,6 +42,6 @@ export default class BookmarkDao implements BookmarkDaoI {
             bookmarkedTuit: tid,
             bookmarkedBy: uid,
         }
-        return BookmarkModel.findOne(payload)
+        return BookmarkModel.findOne(payload).populate("bookmarkedTuit")
     }
 }

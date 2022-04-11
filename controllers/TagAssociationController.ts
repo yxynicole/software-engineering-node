@@ -3,15 +3,18 @@ import TagAssociationDao from "../daos/TagAssociationDao";
 import TagAssociationControllerI from "../interfaces/TagAssociationControllerI";
 import TagDao from "../daos/TagDao";
 import BookmarkDao from "../daos/BookmarkDao";
+import TuitDao from "../daos/TuitDao";
 
 export default class TagAssociationController implements TagAssociationControllerI {
     tagAssociationDao: TagAssociationDao
+    tuitDao: TuitDao
     tagDao: TagDao;
     bookmarkDao: BookmarkDao;
 
     constructor() {
         this.tagAssociationDao = new TagAssociationDao();
         this.tagDao = TagDao.getInstance();
+        this.tuitDao = TuitDao.getInstance();
         this.bookmarkDao = new BookmarkDao();
     }
 
@@ -61,7 +64,14 @@ export default class TagAssociationController implements TagAssociationControlle
         const bookmark = await this.bookmarkDao.findBookmarkByTuit(req.params['uid'], req.params['tid']);
         if (!bookmark) {
             return res.json([])
+        } else {
+
         }
+        if(bookmark.bookmarkedTuit) {
+            bookmark.bookmarkedTuit.stats.bookmarked = true
+            this.tuitDao.updateTuitStats(req.params['tid'], bookmark.bookmarkedTuit.stats)
+        };
+
         // @ts-ignore
         const bid = bookmark._id;
         this.tagAssociationDao.findAllTagsByBookmark(bid)

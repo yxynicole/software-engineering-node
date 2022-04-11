@@ -76,13 +76,31 @@ export default class BookmarkController implements bookmarkControllerI {
             res.status(403)
             return
         }
-        this.bookmarkDao.findBookmarksByUser(userId)
-            .then(bookmarks => {
-                res.json(bookmarks.map(bookmark => bookmark.bookmarkedTuit))
-            })
-            .catch(err => {
-                return res.status(422).json(err)
-            })
+
+        const filterTags = req.query.filterTags as string[];
+        if (!filterTags) {
+            this.bookmarkDao.findBookmarksByUser(userId)
+                .then(bookmarks => {
+                    res.json(bookmarks.map(bookmark => bookmark.bookmarkedTuit))
+                })
+        } else {
+            this.tagAssociationDao.findTagAssociationByUser(userId)
+                .then(associations => {
+                    let tuits = new Map()
+                    associations.forEach(a => {
+                        if (a.tag?.tagName && filterTags.includes(a.tag.tagName)) {
+                            // @ts-ignore
+                            tuits.set(a.bookmark?.bookmarkedTuit?._id, a.bookmark?.bookmarkedTuit)
+                        }
+                    })
+                    console.log([...tuits.values()])
+                    res.json([...tuits.values()])
+                })
+                .catch(err => {
+                    console.log(err)
+                    return res.status(422).json(err)
+                })
+        }
     }
     toggleBookmark = async (req: Request, res: Response) => {
         const uid = req.params.uid;
